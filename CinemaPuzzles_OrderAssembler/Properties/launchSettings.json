@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CinemaPuzzles_OrderAssembler": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Code\\TestingFS\\CinemaPuzzles\\Reports\\CinemaPuzzleProducts_051826.csv\""
+    }
+  }
+}
