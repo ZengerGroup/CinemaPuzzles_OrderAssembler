@@ -1,4 +1,6 @@
-﻿using PdfSharp.Pdf;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Internal;
+using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,9 @@ namespace CinemaPuzzles_OrderAssembler
             CombineIndividuals(ShortSKUs, map, "short");
             CombineIndividuals(LongSKUs, map, "long");
             CombineIndividuals(BigSKUs, map, "big");
+            AddUIDs(0);
+            AddUIDs(1);
+            AddUIDs(2);
             CombineFinals();
         }
         private void SortOrders(Product[] products)
@@ -88,6 +93,7 @@ namespace CinemaPuzzles_OrderAssembler
                 PdfDocument puzzleArt = PdfReader.Open(GetPathOfType("puzzle", map[products[i].SKU]), PdfDocumentOpenMode.Import);
                 PdfDocument posterArt = PdfReader.Open(GetPathOfType("poster", map[products[i].SKU]), PdfDocumentOpenMode.Import);
                 PdfDocument sleeveArt = PdfReader.Open(GetPathOfType("sleeve", map[products[i].SKU]), PdfDocumentOpenMode.Import);
+                int sIndex = 1, bIndex = 1, lIndex = 1;
                 for (int ii = 0; ii < products[i].Quantity; ii++)
                 {
                     PuzzleDocuments[documentIndex].AddPage(puzzleArt.Pages[0]);
@@ -171,6 +177,43 @@ namespace CinemaPuzzles_OrderAssembler
             PosterDocuments[index] = new PdfDocument();
             SleeveDocuments[index] = new PdfDocument();
             return index;
+        }
+        private void AddUIDs(int size)
+        {
+            if (!File.Exists(PuzzlePaths[size])) return;
+            PdfDocument puzzleDoc = PdfReader.Open(PuzzlePaths[size]);
+            PdfDocument posterDoc = PdfReader.Open(PosterPaths[size]);
+            PdfDocument sleeveDoc = PdfReader.Open(SleevePaths[size]);
+            string uidPrefix = (size == 0) ? "S" : (size == 1) ? "L" : "B";
+            int count = 1;
+            for(int i = 0; i < puzzleDoc.PageCount; i++)
+            {
+                //SHARED
+                string uidComplete = String.Format("{0}{1}", uidPrefix, count.ToString("0000"));
+                var xFont = new XFont("Verdana", 7);
+                //FOR POSTER, NEED BACK PAGE, page index = COUNT+i
+                var gfx = XGraphics.FromPdfPage(posterDoc.Pages[count + i], XGraphicsPdfPageOptions.Append);
+                var xRect = new XRect(5, 666, 110, 0);
+                gfx.DrawString(uidComplete, xFont, XBrushes.Black, xRect, XStringFormats.Default);
+                //FOR PUZZLE
+                gfx = XGraphics.FromPdfPage(puzzleDoc.Pages[i], XGraphicsPdfPageOptions.Append);
+                xRect = new XRect(100, 20, 110, 18);
+                gfx.DrawString(uidComplete, xFont, XBrushes.Black, xRect, XStringFormats.Center);
+                //FOR SLEEVE
+                gfx = XGraphics.FromPdfPage(sleeveDoc.Pages[i], XGraphicsPdfPageOptions.Append);
+                xRect = new XRect(1685, 100, 110, 18);
+                gfx.RotateAtTransform(270, new XPoint(1685, 100));
+                gfx.DrawString(uidComplete, xFont, XBrushes.White, xRect, XStringFormats.Center);
+                //Shared, again.
+                count++;
+            }
+            puzzleDoc.Save(PuzzlePaths[size]);
+            posterDoc.Save(PosterPaths[size]);
+            sleeveDoc.Save(SleevePaths[size]);
+            puzzleDoc.Close();
+            posterDoc.Close();
+            sleeveDoc.Close();
+
         }
     }
 }

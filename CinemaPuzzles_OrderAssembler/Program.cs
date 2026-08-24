@@ -1,9 +1,15 @@
-﻿namespace CinemaPuzzles_OrderAssembler
+﻿using PdfSharp.Fonts;
+using PdfSharp.Snippets.Font;
+
+namespace CinemaPuzzles_OrderAssembler
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            Logger.WriteLog("Beginning system setup.", true);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            GlobalFontSettings.FontResolver = new FailsafeFontResolver();
             Logger.WriteLog("Beginning assembly", true);
             if (!File.Exists(args[0])) Logger.ErrorExit(["Unable to access report file."], 101);
             ProductMapper ProductMap = new ProductMapper();

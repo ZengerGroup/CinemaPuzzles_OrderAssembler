@@ -2,7 +2,7 @@
   "profiles": {
     "CinemaPuzzles_OrderAssembler": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Code\\TestingFS\\CinemaPuzzles\\Reports\\CinemaPuzzleProducts_051826.csv\""
+      "commandLineArgs": "\"C:\\Code\\TestingFS\\CinemaPuzzles\\Assembler\\388900_CinemaPuzzleProducts_082126.csv\" \"000001\""
     }
   }
 }
