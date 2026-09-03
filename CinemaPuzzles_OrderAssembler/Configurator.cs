@@ -10,6 +10,7 @@ namespace CinemaPuzzles_OrderAssembler
     internal static class Configurator
     {
         public static string LogPath = ConfigurationManager.AppSettings["LogPath"];
+        public static string IssuePath = ConfigurationManager.AppSettings["IssuePath"];
         public static string Puzzles = ConfigurationManager.AppSettings["ProductionPuzzles"];
         public static string Posters = ConfigurationManager.AppSettings["ProductionPosters"];
         public static string Sleeves = ConfigurationManager.AppSettings["ProductionSleeves"];

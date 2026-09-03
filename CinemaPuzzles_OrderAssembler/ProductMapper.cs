@@ -65,16 +65,3 @@ namespace CinemaPuzzles_OrderAssembler
         }
     }
 }
-
-//foreach puzzle dir
-    //foreach puzzle file in the dir:
-        //Get the sku (remove 'PUZZLE_' prefix and file extension)
-        //Get the subfolder name (...\PUZZLES\{subfolder name})
-        //Add these two to a temp dictionary
-//foreach key/value in the temp dictionary
-    //go through the puzzle, poster, and sleeve directory for the film
-        //scan the files in these directories for matches to the sku
-            //if match is found add it to temp List<string>
-    //Add a key/value pair to mapping dictionary (sku/temp List<string>.ToArray())
-//return mapping dictionary
-

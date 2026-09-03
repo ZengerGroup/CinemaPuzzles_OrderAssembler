@@ -54,6 +54,7 @@ namespace CinemaPuzzles_OrderAssembler
                         break;
                     default:
                         otherPuzzles++;
+                        Logger.GenerateIssueJson(String.Format("Unable to determine puzzle size: {0}", Products[i].SKU), "Warning");
                         break;
                 }
             }
