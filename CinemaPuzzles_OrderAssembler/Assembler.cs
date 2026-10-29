@@ -78,7 +78,7 @@ namespace CinemaPuzzles_OrderAssembler
             {
                 if (unsortedList[i].SKU.Split("_")[1] == pieces[0]) JR.Add(unsortedList[i]);
                 else if (unsortedList[i].SKU.Split("_")[1] == pieces[1]) SR.Add(unsortedList[i]);
-                else Logger.WriteLog("Error processing sku: {0}", false, unsortedList[i].SKU);
+                else Logger.ErrorExit([String.Format("Error processing sku: {0}",unsortedList[i].SKU)], 202);
             }
             for(int i = 0; i < JR.Count; i++) Sorted.Add(JR[i]);
             for(int i = 0; i < SR.Count; i++) Sorted.Add(SR[i]);

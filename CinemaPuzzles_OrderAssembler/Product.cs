@@ -16,6 +16,7 @@ namespace CinemaPuzzles_OrderAssembler
             SKU = sku;
             if (!Int32.TryParse(qty, out Quantity)) Logger.ErrorExit([String.Format("Quantity for {0] is not correctly formatted.", SKU)], 102);
             PuzzleSize = GetSize();
+            if(PuzzleSize == "_") Logger.ErrorExit(["Unable to determine puzzle size. Please Check archive and resubmit."], 600);
         }
         private string GetSize()
         {

@@ -54,9 +54,10 @@ namespace CinemaPuzzles_OrderAssembler
         }
         public static void GenerateIssueJson(string message, string issueType)
         {
-            string jsonString = String.Format("{\"JobNumber\":\"{0}\",\"IssueType\":\"{1}\",\"Message\":\"{2}\",\"AppName\":\"Cinema Puzzles Assembly\",\"TimeStamp\":{3},\"ContactNeeded\":\"{4}\"",
+            string jsonString = String.Format("\"JobNumber\":\"{0}\",\"IssueType\":\"{1}\",\"Message\":\"{2}\",\"AppName\":\"Cinema Puzzles Assembly\",\"TimeStamp\":\"{3}\",\"ContactNeeded\":\"{4}\"",
                 JobNumber, issueType, message, DateTime.Now.ToString("MM-dd-yyyy_HH:mm:ss"), "Marc Fortner");
             string jsonPath = Path.Combine(Configurator.IssuePath, GeneratePathName());
+            jsonString = "{" + jsonString + "}";
             File.AppendAllText(jsonPath, jsonString);
         }
         private static string GeneratePathName()

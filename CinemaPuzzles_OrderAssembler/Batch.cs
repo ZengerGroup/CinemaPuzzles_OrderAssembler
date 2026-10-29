@@ -16,6 +16,7 @@ namespace CinemaPuzzles_OrderAssembler
             JobNumber = jobNumber;
             ReportPath = reportPath;
             Products = GenerateProducts();
+            Logger.WriteLog("Found {0} products in today's batch.", false, Products.Length.ToString());
         }
         private Product[] GenerateProducts()
         {
@@ -27,7 +28,7 @@ namespace CinemaPuzzles_OrderAssembler
                 string[] line = reader.ReadLine().Split(",");
                 if (line.Length != 2)
                 {
-                    Logger.WriteLog("Line formatted correctly: ", false);
+                    Logger.WriteLog("Line formatted incorrectly: ", false);
                     if (line.Length == 0) Logger.WriteLog("Line is empty.", false);
                     for (int i = 0; i < line.Length; i++) Logger.WriteLog(line[i], false);
                 }

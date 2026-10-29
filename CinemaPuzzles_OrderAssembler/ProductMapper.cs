@@ -13,22 +13,28 @@ namespace CinemaPuzzles_OrderAssembler
         {
             string[] FilmDirectories = Directory.GetDirectories(Configurator.Puzzles);
             Map = GenerateProductMapping(FilmDirectories);
+            if(Map == null) Logger.ErrorExit(["Failed to generate product mapping. Check server connection."], 401);
+            Logger.WriteLog("Found {0} product templates on our servers", false, Map.Keys.Count.ToString());
         }
         private Dictionary<string, string[]> GenerateProductMapping(string[] filmDirs)
         {
-            Dictionary<string, string> skuAndSubdir = new Dictionary<string, string>();
-            Dictionary<string, string[]> outputMap = new Dictionary<string, string[]>();
-            for (int i = 0; i < filmDirs.Length; i++) 
+            try
             {
-                var chunk = GetSkuDirChunk(filmDirs[i]);
-                foreach(var kvp in chunk) skuAndSubdir.Add(kvp.Key, kvp.Value);
+                Dictionary<string, string> skuAndSubdir = new Dictionary<string, string>();
+                Dictionary<string, string[]> outputMap = new Dictionary<string, string[]>();
+                for (int i = 0; i < filmDirs.Length; i++)
+                {
+                    var chunk = GetSkuDirChunk(filmDirs[i]);
+                    foreach (var kvp in chunk) skuAndSubdir.Add(kvp.Key, kvp.Value);
+                }
+                foreach (KeyValuePair<string, string> kvp in skuAndSubdir)
+                {
+                    KeyValuePair<string, string[]> KeyValue = GetFilePaths(kvp);
+                    if (KeyValue.Value.Length == 3) outputMap.Add(KeyValue.Key, KeyValue.Value);
+                }
+                return outputMap;
             }
-            foreach(KeyValuePair<string, string> kvp in skuAndSubdir)
-            {
-                KeyValuePair<string, string[]> KeyValue = GetFilePaths(kvp);
-                if (KeyValue.Value.Length == 3) outputMap.Add(KeyValue.Key, KeyValue.Value);
-            }
-            return outputMap;
+            catch { return null; }
         }
         private Dictionary<string, string> GetSkuDirChunk(string dirPath)
         {
